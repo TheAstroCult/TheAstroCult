@@ -69,7 +69,7 @@
   position: relative;
   display: inline-block;
   animation: glow 3s ease-in-out infinite alternate;
-  z-index: 15; /* über anderen Elementen */
+  z-index: 15;
 }
 
 .join-wrapper {
@@ -90,7 +90,6 @@
   filter: drop-shadow(0 0 35px #ffaa00);
 }
 
-/* Rover-Licht als eigenes Element */
 .rover {
   content: "";
   position: absolute;
@@ -101,12 +100,12 @@
   background: linear-gradient(
     120deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.15) 50%,   /* weniger intensiv */
+    rgba(255,255,255,0.15) 50%,
     rgba(255,255,255,0) 100%
   );
   transform: skewX(-25deg);
   pointer-events: none;
-  filter: blur(2px);              /* weicher Verlauf */
+  filter: blur(2px);
 }
 .join-area:hover .rover {
   animation: rover 1.2s ease-in-out;
@@ -125,50 +124,7 @@
 @media (max-width: 600px) {
   .join { width: 260px; }
 }
-/* --- NEWSLETTER FORMULAR --- */
-.newsletter-form {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
 
-.newsletter-form input[type="email"] {
-  padding: 0.8rem 1rem;
-  border: 2px solid #ffaa00;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 1rem;
-  width: 250px;
-  outline: none;
-  box-shadow: 0 0 10px #ffaa00;
-  transition: box-shadow 0.3s ease;
-}
-
-.newsletter-form input[type="email"]:focus {
-  box-shadow: 0 0 20px #ffcc33;
-}
-
-.newsletter-form button {
-  padding: 0.8rem 1.5rem;
-  background: #ffaa00;
-  border: none;
-  border-radius: 999px;
-  color: black;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #ffaa00;
-}
-
-.newsletter-form button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #ffdd55;
-}
 /* --- NEWSLETTER FORMULAR (White Neon Style) --- */
 .newsletter-form {
   display: flex;
@@ -229,6 +185,7 @@
   opacity: 0;
   transition: opacity 0.6s ease;
 }
+
 /* --- MANIFESTO TEXT --- */
 .manifesto {
   position: absolute;
@@ -254,13 +211,11 @@
   box-shadow: 0 0 30px rgba(255,255,255,0.2);
 }
 
-/* Hover-Effekt: Text erscheint unter Logo */
 .logo-wrapper:hover .manifesto {
   opacity: 1;
   transform: translateX(-50%) translateY(10px);
 }
 
-/* Sanftes Leuchten */
 @keyframes textGlow {
   0% { text-shadow: 0 0 10px #fff, 0 0 20px #00ffff33; }
   50% { text-shadow: 0 0 20px #ffffff, 0 0 40px #00ffff88; }
@@ -277,36 +232,38 @@
 
   <div class="container">
   <div class="logo-wrapper">
-  <img src="logo.png" alt="Astro Cult Logo" class="logo" />
+    <img src="logo.png" alt="Astro Cult Logo" class="logo" />
 
-  <div class="manifesto">
-    <p>
-      Before the dawn of distortion, there was Harmony.<br>
-      From the dust of dead stars, the First Chord was struck —<br>
-      a perfect triad that echoed across eternity.<br><br>
+    <div class="manifesto">
+      <p>
+        Before the dawn of distortion, there was Harmony.<br>
+        From the dust of dead stars, the First Chord was struck —<br>
+        a perfect triad that echoed across eternity.<br><br>
 
-      We, the Astro Cult, were chosen to guard this frequency.<br>
-      We descend upon Earth — a planet drowning in off-key chaos —<br>
-      to restore balance through rhythm, tone, and divine reverb.<br><br>
+        We, the Astro Cult, were chosen to guard this frequency.<br>
+        We descend upon Earth — a planet drowning in off-key chaos —<br>
+        to restore balance through rhythm, tone, and divine reverb.<br><br>
 
-      Those who hear our music are marked by vibration.<br>
-      Those who join… transcend.
-    </p>
+        Those who hear our music are marked by vibration.<br>
+        Those who join… transcend.
+      </p>
+    </div>
   </div>
-</div>
 
-   <div class="join-area">
-  <div class="join-wrapper">
-    <img src="join.png" alt="Join the Cult" class="join" />
+  <div class="join-area">
+    <div class="join-wrapper">
+      <img src="join.png" alt="Join the Cult" class="join" />
+    </div>
   </div>
-</div>
 
   <div id="newsletter" style="margin-top: 2rem;">
-  <form id="astroForm" class="newsletter-form">
-    <input type="email" id="emailInput" name="email" placeholder="Enter your email" required>
-    <button type="submit">JOIN</button>
-  </form>
-  <p id="thankYou" class="thank-you-message"></p>
+    <!-- ✅ Formspree Integration -->
+    <form action="https://formspree.io/f/mvgdojva" method="POST" class="newsletter-form" id="astroForm">
+      <input type="email" name="email" placeholder="Enter your email" required>
+      <button type="submit">JOIN</button>
+    </form>
+    <p id="thankYou" class="thank-you-message"></p>
+  </div>
 </div>
 
   <script>
@@ -321,7 +278,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    /* --- STAR CLASS --- */
     class Star {
       constructor() { this.reset(); }
       reset() {
@@ -347,14 +303,13 @@
       }
     }
 
-    /* --- UFO CLASS --- */
     class UFO {
       constructor() { this.reset(); }
       reset() {
         this.x = -100;
         this.y = Math.random() * canvas.height * 0.7 + canvas.height * 0.15;
         this.size = Math.random() * 25 + 15;
-        this.speed = Math.random() * 4 + 3; // schneller
+        this.speed = Math.random() * 4 + 3;
         this.alpha = 0.9;
       }
       update() { this.x += this.speed; }
@@ -373,7 +328,6 @@
       }
     }
 
-    /* --- SHOOTING STAR CLASS --- */
     class ShootingStar {
       constructor() { this.reset(); }
       reset() {
@@ -402,11 +356,9 @@
       }
     }
 
-    /* --- CREATE --- */
     function createStars(num) { stars = Array.from({ length: num }, () => new Star()); }
     createStars(250);
 
-    /* --- ANIMATION LOOP --- */
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       stars.forEach(s => { s.update(); s.draw(); });
@@ -425,52 +377,54 @@
     }
     animate();
 
-    /* --- RANDOM UFO SPAWN --- */
     function spawnUFO() {
       ufos.push(new UFO());
-      const nextUfoTime = Math.random() * 5000 + 3000; // 3–8 s
+      const nextUfoTime = Math.random() * 5000 + 3000;
       setTimeout(spawnUFO, nextUfoTime);
     }
     spawnUFO();
 
-    /* --- RARE SHOOTING STARS (~10s) --- */
     function spawnShootingStar() {
       shootingStars.push(new ShootingStar());
-      const nextStarTime = Math.random() * 4000 + 10000; // 10–14 s
+      const nextStarTime = Math.random() * 4000 + 10000;
       setTimeout(spawnShootingStar, nextStarTime);
     }
     spawnShootingStar();
-// Newsletter-Form: send via AJAX
-document.getElementById('astroForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  
-  const emailInput = document.getElementById('emailInput');
-  const thankYou = document.getElementById('thankYou');
-  
-  const formData = new FormData();
-  formData.append('email', emailInput.value);
-  
-  const response = await fetch('save-email.php', { method: 'POST', body: formData });
-  const text = await response.text();
-  
-  // Erfolgreich abgesendet → Text anzeigen
-  emailInput.style.display = 'none';
-  this.querySelector('button').style.display = 'none';
-  thankYou.innerText = "You belong to the ASTRO CULT now!";
-  thankYou.style.opacity = 1;
-});
-// Manifesto toggle for mobile
-const logo = document.querySelector('.logo');
-const manifesto = document.querySelector('.manifesto');
 
-let manifestoVisible = false;
-logo.addEventListener('click', () => {
-  manifestoVisible = !manifestoVisible;
-  manifesto.style.opacity = manifestoVisible ? '1' : '0';
-  manifesto.style.transform = manifestoVisible
-    ? 'translateX(-50%) translateY(10px)'
-    : 'translateX(-50%)';
-});
+    // ✅ Formspree Integration (AJAX)
+    document.getElementById('astroForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const thankYou = document.getElementById('thankYou');
+      const formData = new FormData(form);
+
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.querySelector('input').style.display = 'none';
+        form.querySelector('button').style.display = 'none';
+        thankYou.innerText = "You belong to the ASTRO CULT now!";
+        thankYou.style.opacity = 1;
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
+    });
+
+    // Manifesto toggle for mobile
+    const logo = document.querySelector('.logo');
+    const manifesto = document.querySelector('.manifesto');
+    let manifestoVisible = false;
+    logo.addEventListener('click', () => {
+      manifestoVisible = !manifestoVisible;
+      manifesto.style.opacity = manifestoVisible ? '1' : '0';
+      manifesto.style.transform = manifestoVisible
+        ? 'translateX(-50%) translateY(10px)'
+        : 'translateX(-50%)';
+    });
   </script>
 </body>
 </html>
