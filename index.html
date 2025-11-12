@@ -40,7 +40,7 @@
       text-align: center;
     }
 
-    /* --- LOGO WRAPPER --- */
+    /* --- LOGO --- */
     .logo-wrapper {
       position: relative;
       display: inline-block;
@@ -68,7 +68,7 @@
       100% { filter: drop-shadow(0 0 30px #ffdd99); }
     }
 
-    /* --- MANIFESTO TEXT (über Logo) --- */
+    /* --- MANIFESTO TEXT --- */
     .manifesto {
       position: absolute;
       top: 50%;
@@ -135,7 +135,7 @@
       max-width: 80vw;
       display: block;
       cursor: pointer;
-      transition: transform 0.5s ease, filter 0.5s ease;
+      transition: transform 0.5s ease, filter 0.5s ease, opacity 0.6s ease;
       transform-origin: center;
     }
 
@@ -234,7 +234,7 @@
     </div>
 
     <div class="join-area">
-      <img src="join.png" alt="Join the Cult" class="join" />
+      <img src="join.png" alt="Join the Cult" class="join" id="joinButton" />
     </div>
 
     <div id="newsletter" style="margin-top: 2rem;">
@@ -247,7 +247,7 @@
   </div>
 
   <script>
-    // Canvas animation
+    // Sternenhimmel Animation
     const canvas = document.getElementById('starsCanvas');
     const ctx = canvas.getContext('2d');
     let stars = [], ufos = [], shootingStars = [];
@@ -259,123 +259,51 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    class Star {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.2;
-        this.alpha = Math.random();
-        this.alphaChange = (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? 1 : -1);
-      }
-      update() {
-        this.alpha += this.alphaChange;
-        if (this.alpha <= 0 || this.alpha >= 1) this.alphaChange *= -1;
-      }
-      draw() {
-        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 3);
-        g.addColorStop(0, `rgba(255,255,255,${this.alpha})`);
-        g.addColorStop(0.5, `rgba(255,255,200,${this.alpha / 2})`);
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    class UFO {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = -100;
-        this.y = Math.random() * canvas.height * 0.7 + canvas.height * 0.15;
-        this.size = Math.random() * 25 + 15;
-        this.speed = Math.random() * 4 + 3;
-        this.alpha = 0.9;
-      }
-      update() { this.x += this.speed; }
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.scale(1.2, 0.6);
-        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
-        gradient.addColorStop(0, `rgba(0,255,255,${this.alpha})`);
-        gradient.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    class ShootingStar {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height * 0.3;
-        this.len = Math.random() * 80 + 50;
-        this.speed = Math.random() * 12 + 8;
-        this.size = Math.random() * 2 + 1;
-        this.opacity = 1;
-        this.angle = Math.PI / 4;
-      }
-      update() {
-        this.x += this.speed * Math.cos(this.angle);
-        this.y += this.speed * Math.sin(this.angle);
-        this.opacity -= 0.02;
-      }
-      draw() {
-        ctx.save();
-        ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`;
-        ctx.lineWidth = this.size;
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x - this.len * Math.cos(this.angle), this.y - this.len * Math.sin(this.angle));
-        ctx.stroke();
-        ctx.restore();
-      }
-    }
-
-    function createStars(num) { stars = Array.from({ length: num }, () => new Star()); }
+    class Star { constructor(){this.reset();} reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+0.2;this.alpha=Math.random();this.alphaChange=(Math.random()*0.02+0.005)*(Math.random()<0.5?1:-1);} update(){this.alpha+=this.alphaChange;if(this.alpha<=0||this.alpha>=1)this.alphaChange*=-1;} draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);g.addColorStop(0.5,`rgba(255,255,200,${this.alpha/2})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
+    function createStars(num){stars=Array.from({length:num},()=>new Star());}
     createStars(250);
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(s => { s.update(); s.draw(); });
-      ufos.forEach((u, i) => { u.update(); u.draw(); if (u.x > canvas.width + 100) ufos.splice(i, 1); });
-      shootingStars.forEach((s, i) => { s.update(); s.draw(); if (s.opacity <= 0) shootingStars.splice(i, 1); });
-      requestAnimationFrame(animate);
-    }
+    function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.update();s.draw();});requestAnimationFrame(animate);}
     animate();
 
-    function spawnUFO() { ufos.push(new UFO()); setTimeout(spawnUFO, Math.random() * 5000 + 3000); }
-    function spawnShootingStar() { shootingStars.push(new ShootingStar()); setTimeout(spawnShootingStar, Math.random() * 4000 + 10000); }
-    spawnUFO(); spawnShootingStar();
-
     // ✅ Formspree Integration
-    document.getElementById('astroForm').addEventListener('submit', async function(e) {
+    document.getElementById('astroForm').addEventListener('submit', async function(e){
       e.preventDefault();
-      const form = e.target;
-      const thankYou = document.getElementById('thankYou');
-      const formData = new FormData(form);
-      const response = await fetch(form.action, { method: form.method, body: formData, headers: { 'Accept': 'application/json' }});
-      if (response.ok) {
-        form.querySelector('input').style.display = 'none';
-        form.querySelector('button').style.display = 'none';
-        thankYou.innerText = "You belong to the ASTRO CULT now!";
-        thankYou.style.opacity = 1;
-      }
+      const form=e.target;
+      const thankYou=document.getElementById('thankYou');
+      const formData=new FormData(form);
+      const response=await fetch(form.action,{method:form.method,body:formData,headers:{'Accept':'application/json'}});
+      if(response.ok){form.querySelector('input').style.display='none';form.querySelector('button').style.display='none';thankYou.innerText="You belong to the ASTRO CULT now!";thankYou.style.opacity=1;}
     });
 
-    // Manifesto toggle for mobile
-    const logo = document.querySelector('.logo');
-    const manifesto = document.querySelector('.manifesto');
-    let manifestoVisible = false;
-    logo.addEventListener('click', () => {
-      manifestoVisible = !manifestoVisible;
-      manifesto.style.opacity = manifestoVisible ? '1' : '0';
-      logo.style.opacity = manifestoVisible ? '0.05' : '1';
+    // Manifesto toggle
+    const logo=document.querySelector('.logo');
+    const manifesto=document.querySelector('.manifesto');
+    let manifestoVisible=false;
+    logo.addEventListener('click',()=>{manifestoVisible=!manifestoVisible;manifesto.style.opacity=manifestoVisible?'1':'0';logo.style.opacity=manifestoVisible?'0.05':'1';});
+
+    // 🎵 Sound + Image Wechsel
+    const joinButton=document.getElementById('joinButton');
+    const cultAudio=new Audio('cult-sound.mp3');
+
+    joinButton.addEventListener('click',()=>{
+      cultAudio.currentTime = 0; // sicherstellen, dass es neu startet
+      cultAudio.play().catch(err=>console.log('Audio blockiert:',err));
+
+      // Smooth Übergang zu greatest.png
+      joinButton.style.opacity='0';
+      setTimeout(()=>{
+        joinButton.src='greatest.png';
+        joinButton.style.opacity='1';
+      },600);
+
+      // Wenn Sound endet → sofort zurück zu join.png
+      cultAudio.onended=()=>{
+        joinButton.style.opacity='0';
+        setTimeout(()=>{
+          joinButton.src='join.png';
+          joinButton.style.opacity='1';
+        },600);
+      };
     });
   </script>
 </body>
