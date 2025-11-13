@@ -63,12 +63,13 @@
       transform:rotate(-12deg);
       cursor:pointer;
       filter:drop-shadow(0 0 10px #00ffffcc);
-      transition:transform .4s ease,filter .4s ease,opacity 1s ease;
+      transition:transform .4s ease,filter .4s ease,opacity 1s ease,z-index .3s ease;
       opacity:0;
       z-index:50;
     }
     .why.visible {opacity:1;}
     .why:hover{transform:rotate(-12deg) scale(1.15);filter:drop-shadow(0 0 25px #00ffff);}
+    .why.behind {z-index:1;} /* hinter Text */
 
     /* TEXTBOXEN */
     .manifesto,.why-info{
@@ -162,7 +163,7 @@
       html,body{overflow-y:auto;overflow-x:hidden;}
       .container{
         height:auto;
-        padding-top:20vh; /* etwas mehr Abstand nach oben */
+        padding-top:20vh;
         padding-bottom:10vh;
         gap:1.5rem;
       }
@@ -171,7 +172,7 @@
       .logo{width:220px;max-width:80vw;margin-top:1rem;}
       .why{
         position:fixed !important;
-        top:10px !important;  /* vorher 25px -> jetzt höher */
+        top:-25px !important;  /* deutlich höher */
         left:25px !important;
         width:70px !important;
         transform:rotate(-10deg);
@@ -298,7 +299,18 @@
   const man=document.getElementById('manifesto');
   const whyInfo=document.getElementById('whyInfo');
   let active=null;
-  function toggleBox(box){const all=[man,whyInfo];all.forEach(b=>b.style.opacity=0);if(active===box){active=null;return;}box.style.opacity=1;active=box;}
+
+  function toggleBox(box){
+    const all=[man,whyInfo];
+    all.forEach(b=>{b.style.opacity=0;b.style.pointerEvents='none';});
+    why.classList.remove('behind');
+    if(active===box){active=null;return;}
+    box.style.opacity=1;
+    box.style.pointerEvents='auto';
+    active=box;
+    if(box===whyInfo){why.classList.add('behind');}
+  }
+
   logo.addEventListener('mouseenter',()=>{man.style.opacity=1;});
   logo.addEventListener('mouseleave',()=>{man.style.opacity=0;});
   why.addEventListener('mouseenter',()=>{whyInfo.style.opacity=1;});
