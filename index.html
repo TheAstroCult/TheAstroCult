@@ -107,15 +107,6 @@
       100%{text-shadow:0 0 10px #fff,0 0 20px #00ffff33;}
     }
 
-    @media(max-width:600px){
-      .manifesto,.why-info{
-        font-size:.8rem;
-        line-height:1.4;
-        width:90vw;
-        padding:.8rem 1rem;
-      }
-    }
-
     /* --- JOIN BUTTON --- */
     .join-area{
       position:relative;
@@ -133,7 +124,6 @@
     }
     .join-area:hover .join{transform:scale(1.15);filter:drop-shadow(0 0 35px #ffaa00);}
     @keyframes glow{0%{filter:drop-shadow(0 0 8px #ffcc66);}100%{filter:drop-shadow(0 0 25px #ffaa00);}}
-    @media(max-width:600px){.join{width:260px;}}
 
     /* --- FORM --- */
     .newsletter-form{
@@ -156,6 +146,68 @@
     }
     .newsletter-form button:hover{transform:scale(1.1);box-shadow:0 0 25px #fff;}
     .thank-you-message{margin-top:1.5rem;font-size:1.3rem;color:#fff;text-shadow:0 0 15px #fff;opacity:0;transition:opacity .6s ease;}
+
+    /* === MOBILE OPTIMIZATION === */
+    @media(max-width: 600px) {
+      html, body {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .container {
+        gap: 1rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        height: auto;
+      }
+
+      .logo-wrapper {
+        transform: scale(2);
+      }
+      .logo-wrapper.active {
+        transform: scale(0.9);
+      }
+
+      .logo {
+        width: 180px;
+        max-width: 70vw;
+      }
+
+      .why {
+        top: -50px;
+        left: -60px;
+        width: 60px;
+      }
+
+      .manifesto,
+      .why-info {
+        width: 90vw;
+        max-width: 340px;
+        font-size: 0.75rem;
+        line-height: 1.3;
+        padding: 0.6rem 0.8rem;
+      }
+
+      .join {
+        width: 220px;
+        max-width: 70vw;
+      }
+
+      .newsletter-form input[type=email] {
+        width: 200px;
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+      }
+
+      .newsletter-form button {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+      }
+
+      .thank-you-message {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
