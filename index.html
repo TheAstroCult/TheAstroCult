@@ -5,306 +5,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astro Cult</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-      font-family: 'Orbitron', sans-serif;
-      color: white;
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{
+      width:100%;height:100%;overflow:hidden;
+      background:black;font-family:'Orbitron',sans-serif;color:white;
     }
 
-    /* --- CANVAS --- */
-    #starsCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at bottom, #03031a 0%, #000000 100%);
-      z-index: 0;
+    #starsCanvas{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      background:radial-gradient(ellipse at bottom,#03031a 0%,#000 100%);
+      z-index:0;
     }
 
-    /* --- CONTAINER --- */
-    .container {
-      position: relative;
-      z-index: 10;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-      text-align: center;
+    .container{
+      position:relative;z-index:10;
+      height:100vh;width:100vw;
+      display:flex;flex-direction:column;
+      justify-content:center;align-items:center;
+      gap:1.8rem;text-align:center;
+      opacity:0;
+      transition:opacity 1.5s ease;
     }
 
     /* --- LOGO --- */
-    .logo-wrapper {
-      position: relative;
-      display: inline-block;
-      animation: float 6s ease-in-out infinite;
-      z-index: 20;
+    .logo-wrapper{
+      position:relative;
+      display:inline-block;
+      animation:float 6s ease-in-out infinite;
+      z-index:20;
+      transform:scale(3);
+      opacity:1;
+      transition:transform 2s cubic-bezier(0.25,1,0.3,1);
+    }
+    .logo-wrapper.active {
+      transform:scale(1);
     }
 
-    .logo {
-      width: 300px;
-      max-width: 70vw;
-      animation: shimmer 4s infinite alternate;
-      transition: opacity 0.6s ease, filter 0.4s ease;
-      cursor: pointer;
-      position: relative;
-      z-index: 10;
+    .container.visible {opacity:1;}
+
+    .logo{
+      width:260px;
+      max-width:65vw;
+      animation:shimmer 4s infinite alternate;
+      transition:opacity .6s ease,filter .4s ease;
+      cursor:pointer;
+      position:relative;
+      z-index:10;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+    @keyframes shimmer{
+      0%{filter:drop-shadow(0 0 10px #00ffe0);}
+      100%{filter:drop-shadow(0 0 30px #ffdd99);}
     }
 
-    @keyframes shimmer {
-      0% { filter: drop-shadow(0 0 10px #00ffe0); }
-      100% { filter: drop-shadow(0 0 30px #ffdd99); }
+    /* --- WHY ICON --- */
+    .why{
+      position:absolute;
+      top:-80px;
+      left:-100px;
+      width:90px;
+      transform:rotate(-12deg);
+      cursor:pointer;
+      filter:drop-shadow(0 0 10px #00ffffcc);
+      transition:transform .4s ease,filter .4s ease;
+      z-index:30;
+      opacity:0;
+    }
+    .visible .why {opacity:1;transition:opacity 1s ease 2.3s;}
+    .why:hover{
+      transform:rotate(-12deg) scale(1.15);
+      filter:drop-shadow(0 0 25px #00ffff);
     }
 
-    /* --- MANIFESTO TEXT --- */
-    .manifesto {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.95);
-      width: 85vw;
-      max-width: 600px;
-      text-align: center;
-      color: #ffffff;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      letter-spacing: 0.5px;
-      opacity: 0;
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      text-shadow: 0 0 15px rgba(255,255,255,0.8);
-      pointer-events: none;
-      background: rgba(0,0,0,0.6);
-      padding: 1rem 1.5rem;
-      border-radius: 20px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 30px rgba(255,255,255,0.25);
-      z-index: 50;
+    /* --- TEXTBOXEN --- */
+    .manifesto,.why-info{
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%) scale(.95);
+      width:80vw;max-width:450px;
+      text-align:center;color:#fff;
+      font-size:0.9rem;line-height:1.5;letter-spacing:.5px;
+      opacity:0;transition:opacity .6s ease,transform .6s ease;
+      text-shadow:0 0 15px rgba(255,255,255,.8);
+      pointer-events:none;
+      background:rgba(0,0,0,.6);
+      padding:0.8rem 1rem;border-radius:20px;
+      backdrop-filter:blur(6px);
+      box-shadow:0 0 25px rgba(255,255,255,.2);
+      z-index:50;
     }
 
-    .logo-wrapper:hover .logo {
-      opacity: 0.05;
+    .why-info {font-size:0.8rem;line-height:1.4;letter-spacing:0.3px;}
+
+    .manifesto p,.why-info p{
+      animation:textGlow 5s ease-in-out infinite alternate;
+    }
+    @keyframes textGlow{
+      0%{text-shadow:0 0 10px #fff,0 0 20px #00ffff33;}
+      50%{text-shadow:0 0 20px #fff,0 0 40px #00ffff88;}
+      100%{text-shadow:0 0 10px #fff,0 0 20px #00ffff33;}
     }
 
-    .logo-wrapper:hover .manifesto {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 10px #fff, 0 0 20px #00ffff33; }
-      50% { text-shadow: 0 0 20px #ffffff, 0 0 40px #00ffff88; }
-      100% { text-shadow: 0 0 10px #fff, 0 0 20px #00ffff33; }
-    }
-
-    .manifesto p {
-      animation: textGlow 5s ease-in-out infinite alternate;
-    }
-
-    @media (max-width: 600px) {
-      .manifesto {
-        font-size: 0.85rem;
-        line-height: 1.4;
-        width: 90vw;
-        padding: 0.8rem 1rem;
+    @media(max-width:600px){
+      .manifesto,.why-info{
+        font-size:.8rem;
+        line-height:1.4;
+        width:90vw;
+        padding:.8rem 1rem;
       }
     }
 
     /* --- JOIN BUTTON --- */
-    .join-area {
-      position: relative;
-      display: inline-block;
-      animation: glow 3s ease-in-out infinite alternate;
-      z-index: 15;
+    .join-area{
+      position:relative;
+      display:inline-block;
+      animation:glow 3s ease-in-out infinite alternate;
+      z-index:15;
+      opacity:0;
     }
-
-    .join {
-      width: 400px;
-      max-width: 80vw;
-      display: block;
-      cursor: pointer;
-      transition: transform 0.5s ease, filter 0.5s ease, opacity 0.6s ease;
-      transform-origin: center;
+    .visible .join-area {opacity:1;transition:opacity 1s ease 2.3s;}
+    .join{
+      width:380px;max-width:80vw;
+      display:block;cursor:pointer;
+      transition:transform .5s ease,filter .5s ease,opacity .6s ease;
+      transform-origin:center;
     }
-
-    .join-area:hover .join {
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 35px #ffaa00);
-    }
-
-    @keyframes glow {
-      0% { filter: drop-shadow(0 0 8px #ffcc66); }
-      100% { filter: drop-shadow(0 0 25px #ffaa00); }
-    }
-
-    @media (max-width: 600px) {
-      .join { width: 260px; }
-    }
+    .join-area:hover .join{transform:scale(1.15);filter:drop-shadow(0 0 35px #ffaa00);}
+    @keyframes glow{0%{filter:drop-shadow(0 0 8px #ffcc66);}100%{filter:drop-shadow(0 0 25px #ffaa00);}}
+    @media(max-width:600px){.join{width:260px;}}
 
     /* --- FORM --- */
-    .newsletter-form {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      align-items: center;
-      margin-top: 1rem;
-      flex-wrap: wrap;
+    .newsletter-form{
+      display:flex;gap:.5rem;justify-content:center;align-items:center;
+      margin-top:1rem;flex-wrap:wrap;
+      opacity:0;
     }
-
-    .newsletter-form input[type="email"] {
-      padding: 0.8rem 1rem;
-      border: 2px solid #ffffff;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      font-size: 1rem;
-      width: 250px;
-      outline: none;
-      box-shadow: 0 0 10px #ffffff80;
-      transition: all 0.3s ease;
-      text-align: center;
+    .visible .newsletter-form {opacity:1;transition:opacity 1s ease 2.5s;}
+    .newsletter-form input[type=email]{
+      padding:.8rem 1rem;border:2px solid #fff;border-radius:999px;
+      background:rgba(255,255,255,.1);color:#fff;font-size:1rem;width:250px;
+      outline:none;box-shadow:0 0 10px #ffffff80;transition:all .3s ease;text-align:center;
     }
-
-    .newsletter-form input[type="email"]::placeholder {
-      color: #ffffffaa;
+    .newsletter-form input::placeholder{color:#ffffffaa;}
+    .newsletter-form input:focus{box-shadow:0 0 25px #fff;}
+    .newsletter-form button{
+      padding:.8rem 1.5rem;background:#fff;border:none;border-radius:999px;color:#000;
+      font-weight:bold;font-size:1rem;cursor:pointer;transition:all .3s ease;
+      box-shadow:0 0 10px #ffffff80;
     }
-
-    .newsletter-form input[type="email"]:focus {
-      box-shadow: 0 0 25px #ffffff;
-    }
-
-    .newsletter-form button {
-      padding: 0.8rem 1.5rem;
-      background: #fff;
-      border: none;
-      border-radius: 999px;
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px #ffffff80;
-    }
-
-    .newsletter-form button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 25px #ffffff;
-    }
-
-    .thank-you-message {
-      margin-top: 1.5rem;
-      font-size: 1.3rem;
-      color: #ffffff;
-      text-shadow: 0 0 15px #fff;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
+    .newsletter-form button:hover{transform:scale(1.1);box-shadow:0 0 25px #fff;}
+    .thank-you-message{margin-top:1.5rem;font-size:1.3rem;color:#fff;text-shadow:0 0 15px #fff;opacity:0;transition:opacity .6s ease;}
   </style>
 </head>
 <body>
-  <canvas id="starsCanvas"></canvas>
+<canvas id="starsCanvas"></canvas>
 
-  <div class="container">
-    <div class="logo-wrapper">
-      <img src="logo.png" alt="Astro Cult Logo" class="logo" />
-      <div class="manifesto">
-        <p>
-          Before the dawn of distortion, there was Harmony.<br>
-          From the dust of dead stars, the First Chord was struck —<br>
-          a perfect triad that echoed across eternity.<br><br>
-          We, the Astro Cult, were chosen to guard this frequency.<br>
-          We descend upon Earth — a planet drowning in off-key chaos —<br>
-          to restore balance through rhythm, tone, and divine reverb.<br><br>
-          Those who hear our music are marked by vibration.<br>
-          Those who join… transcend.
-        </p>
-      </div>
+<div class="container" id="mainContainer">
+  <div class="logo-wrapper" id="logoWrap">
+    <img src="logo.png" alt="Astro Cult Logo" class="logo" id="logo">
+    <img src="why.png" alt="Why" class="why" id="whyButton">
+
+    <div class="manifesto" id="manifesto">
+      <p>
+        Before the dawn of distortion, there was Harmony.<br>
+        From the dust of dead stars, the First Chord was struck —<br>
+        a perfect triad that echoed across eternity.<br><br>
+        We, the Astro Cult, were chosen to guard this frequency.<br>
+        We descend upon Earth — a planet drowning in off-key chaos —<br>
+        to restore balance through rhythm, tone, and divine reverb.<br><br>
+        Those who hear our music are marked by vibration.<br>
+        Those who join… transcend.
+      </p>
     </div>
 
-    <div class="join-area">
-      <img src="join.png" alt="Join the Cult" class="join" id="joinButton" />
-    </div>
-
-    <div id="newsletter" style="margin-top: 2rem;">
-      <form action="https://formspree.io/f/mvgdojva" method="POST" class="newsletter-form" id="astroForm">
-        <input type="email" name="email" placeholder="Enter your email" required>
-        <button type="submit">JOIN</button>
-      </form>
-      <p id="thankYou" class="thank-you-message"></p>
+    <div class="why-info" id="whyInfo">
+      <p>
+        You don’t just follow a band.<br>
+        You join a frequency.<br><br>
+        When the portal opens, enter your email.<br>
+        You’ll receive your Astro Number — your place in the cosmic order.<br>
+        It’s your ID in the Cult, proof that you tuned in before the rest of Earth caught on.<br><br>
+        The lower your number, the closer you are to the source.<br><br>
+        ⸻<br><br>
+        💫 WHY YOUR NUMBER MATTERS<br>
+        • 🎟️ Low numbers get first access to members-only shows<br>
+        • 🧥 Exclusive merch drops & patches<br>
+        • 📡 Hidden transmissions & unreleased music<br>
+        • 🎲 Random lotteries — lucky numbers win tickets, merch, and rare relics
+      </p>
     </div>
   </div>
 
-  <script>
-    // Sternenhimmel Animation
-    const canvas = document.getElementById('starsCanvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [], ufos = [], shootingStars = [];
+  <div class="join-area" id="joinArea">
+    <img src="join.png" alt="Join the Cult" class="join" id="joinButton">
+  </div>
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+  <div id="newsletter" style="margin-top:2rem;">
+    <form action="https://formspree.io/f/mvgdojva" method="POST" class="newsletter-form" id="astroForm">
+      <input type="email" name="email" placeholder="Enter your email" required>
+      <button type="submit">JOIN</button>
+    </form>
+    <p id="thankYou" class="thank-you-message"></p>
+  </div>
+</div>
 
-    class Star { constructor(){this.reset();} reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+0.2;this.alpha=Math.random();this.alphaChange=(Math.random()*0.02+0.005)*(Math.random()<0.5?1:-1);} update(){this.alpha+=this.alphaChange;if(this.alpha<=0||this.alpha>=1)this.alphaChange*=-1;} draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);g.addColorStop(0.5,`rgba(255,255,200,${this.alpha/2})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
-    function createStars(num){stars=Array.from({length:num},()=>new Star());}
-    createStars(250);
-    function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.update();s.draw();});requestAnimationFrame(animate);}
-    animate();
+<audio id="introSound" src="intro-whoosh.mp3" preload="auto"></audio>
 
-    // ✅ Formspree Integration
-    document.getElementById('astroForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const form=e.target;
-      const thankYou=document.getElementById('thankYou');
-      const formData=new FormData(form);
-      const response=await fetch(form.action,{method:form.method,body:formData,headers:{'Accept':'application/json'}});
-      if(response.ok){form.querySelector('input').style.display='none';form.querySelector('button').style.display='none';thankYou.innerText="You are in a Cult now!";thankYou.style.opacity=1;}
-    });
+<script>
+  // --- Canvas Animation ---
+  const canvas=document.getElementById('starsCanvas');const ctx=canvas.getContext('2d');
+  let stars=[],ufos=[],shootingStars=[];
+  function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
+  addEventListener('resize',resizeCanvas);resizeCanvas();
 
-    // Manifesto toggle
-    const logo=document.querySelector('.logo');
-    const manifesto=document.querySelector('.manifesto');
-    let manifestoVisible=false;
-    logo.addEventListener('click',()=>{manifestoVisible=!manifestoVisible;manifesto.style.opacity=manifestoVisible?'1':'0';logo.style.opacity=manifestoVisible?'0.05':'1';});
+  class Star{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+.2;this.alpha=Math.random();this.da=(Math.random()*.02+.005)*(Math.random()<.5?1:-1);}update(){this.alpha+=this.da;if(this.alpha<=0||this.alpha>=1)this.da*=-1;}draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);g.addColorStop(.5,`rgba(255,255,200,${this.alpha/2})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
+  class UFO{constructor(){this.reset();}reset(){this.x=-100;this.y=Math.random()*canvas.height*0.7+canvas.height*0.15;this.size=Math.random()*25+15;this.speed=Math.random()*4+3;this.alpha=0.9;}update(){this.x+=this.speed;}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.scale(1.2,0.6);const gradient=ctx.createRadialGradient(0,0,0,0,0,this.size);gradient.addColorStop(0,`rgba(0,255,255,${this.alpha})`);gradient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gradient;ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
+  class ShootingStar{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height*0.3;this.len=Math.random()*80+50;this.speed=Math.random()*12+8;this.size=Math.random()*2+1;this.opacity=1;this.angle=Math.PI/4;}update(){this.x+=this.speed*Math.cos(this.angle);this.y+=this.speed*Math.sin(this.angle);this.opacity-=0.02;}draw(){ctx.save();ctx.strokeStyle=`rgba(255,255,255,${this.opacity})`;ctx.lineWidth=this.size;ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x-this.len*Math.cos(this.angle),this.y-this.len*Math.sin(this.angle));ctx.stroke();ctx.restore();}}
+  function createStars(num){stars=Array.from({length:num},()=>new Star());}
+  createStars(250);
+  function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.update();s.draw();});ufos.forEach((u,i)=>{u.update();u.draw();if(u.x>canvas.width+100)ufos.splice(i,1);});shootingStars.forEach((s,i)=>{s.update();s.draw();if(s.opacity<=0)shootingStars.splice(i,1);});requestAnimationFrame(animate);}animate();
+  function spawnUFO(){ufos.push(new UFO());setTimeout(spawnUFO,Math.random()*5000+3000);}
+  function spawnShootingStar(){shootingStars.push(new ShootingStar());setTimeout(spawnShootingStar,Math.random()*4000+10000);}
+  spawnUFO();spawnShootingStar();
 
-    // 🎵 Sound + Image Wechsel
-    const joinButton=document.getElementById('joinButton');
-    const cultAudio=new Audio('cult-sound.mp3');
+  // --- Intro ---
+  const logoWrap=document.getElementById('logoWrap');
+  const mainContainer=document.getElementById('mainContainer');
+  const introSound=document.getElementById('introSound');
 
-    joinButton.addEventListener('click',()=>{
-      cultAudio.currentTime = 0; // sicherstellen, dass es neu startet
-      cultAudio.play().catch(err=>console.log('Audio blockiert:',err));
-
-      // Smooth Übergang zu greatest.png
-      joinButton.style.opacity='0';
+  if(!localStorage.getItem('astroIntroPlayed')){
+    requestAnimationFrame(()=>{
+      introSound.play().catch(()=>{});
+      setTimeout(()=>logoWrap.classList.add('active'),100);
       setTimeout(()=>{
-        joinButton.src='greatest.png';
-        joinButton.style.opacity='1';
-      },600);
-
-      // Wenn Sound endet → sofort zurück zu join.png
-      cultAudio.onended=()=>{
-        joinButton.style.opacity='0';
-        setTimeout(()=>{
-          joinButton.src='join.png';
-          joinButton.style.opacity='1';
-        },600);
-      };
+        mainContainer.classList.add('visible');
+        localStorage.setItem('astroIntroPlayed','true');
+      },2500);
     });
-  </script>
+  } else {
+    logoWrap.classList.add('active');
+    mainContainer.classList.add('visible');
+  }
+
+  // --- Rest ---
+  const logo=document.getElementById('logo');
+  const why=document.getElementById('whyButton');
+  const man=document.getElementById('manifesto');
+  const whyInfo=document.getElementById('whyInfo');
+  let active=null;
+  function toggleBox(box){const all=[man,whyInfo];all.forEach(b=>b.style.opacity=0);if(active===box){active=null;return;}box.style.opacity=1;active=box;}
+  logo.addEventListener('mouseenter',()=>{man.style.opacity=1;});
+  logo.addEventListener('mouseleave',()=>{man.style.opacity=0;});
+  why.addEventListener('mouseenter',()=>{whyInfo.style.opacity=1;});
+  why.addEventListener('mouseleave',()=>{whyInfo.style.opacity=0;});
+  logo.addEventListener('click',()=>toggleBox(man));
+  why.addEventListener('click',()=>toggleBox(whyInfo));
+
+  const joinButton=document.getElementById('joinButton');
+  const cultAudio=new Audio('cult-sound.mp3');
+  joinButton.addEventListener('click',()=>{
+    cultAudio.currentTime=0;
+    cultAudio.play().catch(e=>console.log('Audio blockiert:',e));
+    joinButton.style.opacity='0';
+    setTimeout(()=>{joinButton.src='greatest.png';joinButton.style.opacity='1';},600);
+    cultAudio.onended=()=>{joinButton.style.opacity='0';setTimeout(()=>{joinButton.src='join.png';joinButton.style.opacity='1';},600);};
+  });
+</script>
 </body>
 </html>
