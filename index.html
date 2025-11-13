@@ -22,7 +22,7 @@
       height:100vh;width:100vw;
       display:flex;flex-direction:column;
       justify-content:center;align-items:center;
-      gap:1.8rem;text-align:center;
+      gap:2rem;text-align:center;
       opacity:0;
       transition:opacity 1.5s ease;
     }
@@ -148,18 +148,25 @@
     @media(max-width: 600px) {
       html, body { overflow-y: auto; overflow-x: hidden; }
 
-      .container { gap: 1rem; padding-top: 2rem; padding-bottom: 2rem; height: auto; }
+      .container {
+        gap: 1.3rem;
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
+        height: auto;
+        transform: scale(0.9);
+      }
 
-      .logo-wrapper { transform: scale(2); }
-      .logo-wrapper.active { transform: scale(0.9); }
+      .logo-wrapper { transform: scale(2.5); }
+      .logo-wrapper.active { transform: scale(1); }
 
-      .logo { width: 180px; max-width: 70vw; }
+      .logo { width: 160px; max-width: 65vw; }
 
       .why {
-        top: 6%;
-        left: 65%;
-        width: 55px;
-        transform: rotate(-15deg);
+        top: 8%;
+        left: 55%;
+        width: 60px;
+        transform: rotate(-12deg);
+        z-index: 9999;
       }
 
       .manifesto, .why-info {
@@ -170,17 +177,19 @@
         padding: 0.6rem 0.8rem;
       }
 
+      .join-area { margin-top: 1.2rem; }
       .join { width: 220px; max-width: 70vw; }
 
+      .newsletter-form { margin-top: 1rem; }
       .newsletter-form input[type=email] {
-        width: 200px;
+        width: 190px;
         font-size: 0.85rem;
         padding: 0.6rem 0.8rem;
       }
 
       .newsletter-form button { font-size: 0.85rem; padding: 0.6rem 1rem; }
 
-      .thank-you-message { font-size: 1rem; }
+      .thank-you-message { font-size: 1rem; margin-top: 1rem; }
     }
   </style>
 </head>
