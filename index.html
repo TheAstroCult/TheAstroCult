@@ -58,18 +58,18 @@
 
     /* --- WHY ICON --- */
     .why{
-      position:absolute;
-      top:-80px;
-      left:-100px;
+      position:fixed;
+      top:12%;
+      left:calc(50% - 180px);
       width:90px;
       transform:rotate(-12deg);
       cursor:pointer;
       filter:drop-shadow(0 0 10px #00ffffcc);
-      transition:transform .4s ease,filter .4s ease;
-      z-index:30;
+      transition:transform .4s ease,filter .4s ease,opacity 1s ease;
       opacity:0;
+      z-index:9999;
     }
-    .visible .why {opacity:1;transition:opacity 1s ease 2.3s;}
+    .why.visible {opacity:1;}
     .why:hover{
       transform:rotate(-12deg) scale(1.15);
       filter:drop-shadow(0 0 25px #00ffff);
@@ -90,7 +90,7 @@
       padding:0.8rem 1rem;border-radius:20px;
       backdrop-filter:blur(6px);
       box-shadow:0 0 25px rgba(255,255,255,.2);
-      z-index:50;
+      z-index:60;
     }
 
     .why-info {font-size:0.8rem;line-height:1.4;letter-spacing:0.3px;}
@@ -146,40 +146,23 @@
 
     /* === MOBILE OPTIMIZATION === */
     @media(max-width: 600px) {
-      html, body {
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
+      html, body { overflow-y: auto; overflow-x: hidden; }
 
-      .container {
-        gap: 1rem;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        height: auto;
-      }
+      .container { gap: 1rem; padding-top: 2rem; padding-bottom: 2rem; height: auto; }
 
-      .logo-wrapper {
-        transform: scale(2);
-      }
-      .logo-wrapper.active {
-        transform: scale(0.9);
-      }
+      .logo-wrapper { transform: scale(2); }
+      .logo-wrapper.active { transform: scale(0.9); }
 
-      .logo {
-        width: 180px;
-        max-width: 70vw;
-      }
+      .logo { width: 180px; max-width: 70vw; }
 
       .why {
-        top: -45px;
-        left: -30px;
+        top: 6%;
+        left: 65%;
         width: 55px;
         transform: rotate(-15deg);
-        opacity: 1 !important;
       }
 
-      .manifesto,
-      .why-info {
+      .manifesto, .why-info {
         width: 90vw;
         max-width: 320px;
         font-size: 0.75rem;
@@ -187,10 +170,7 @@
         padding: 0.6rem 0.8rem;
       }
 
-      .join {
-        width: 220px;
-        max-width: 70vw;
-      }
+      .join { width: 220px; max-width: 70vw; }
 
       .newsletter-form input[type=email] {
         width: 200px;
@@ -198,14 +178,9 @@
         padding: 0.6rem 0.8rem;
       }
 
-      .newsletter-form button {
-        font-size: 0.85rem;
-        padding: 0.6rem 1rem;
-      }
+      .newsletter-form button { font-size: 0.85rem; padding: 0.6rem 1rem; }
 
-      .thank-you-message {
-        font-size: 1rem;
-      }
+      .thank-you-message { font-size: 1rem; }
     }
   </style>
 </head>
@@ -215,7 +190,6 @@
 <div class="container" id="mainContainer">
   <div class="logo-wrapper" id="logoWrap">
     <img src="logo.png" alt="Astro Cult Logo" class="logo" id="logo">
-    <img src="why.png" alt="Why" class="why" id="whyButton">
 
     <div class="manifesto" id="manifesto">
       <p>
@@ -261,10 +235,11 @@
   </div>
 </div>
 
+<img src="why.png" alt="Why" class="why" id="whyButton">
+
 <audio id="introSound" src="intro-whoosh.mp3" preload="auto"></audio>
 
 <script>
-  // --- Canvas Animation ---
   const canvas=document.getElementById('starsCanvas');const ctx=canvas.getContext('2d');
   let stars=[],ufos=[],shootingStars=[];
   function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
@@ -280,10 +255,10 @@
   function spawnShootingStar(){shootingStars.push(new ShootingStar());setTimeout(spawnShootingStar,Math.random()*4000+10000);}
   spawnUFO();spawnShootingStar();
 
-  // --- Intro ---
   const logoWrap=document.getElementById('logoWrap');
   const mainContainer=document.getElementById('mainContainer');
   const introSound=document.getElementById('introSound');
+  const why=document.getElementById('whyButton');
 
   if(!localStorage.getItem('astroIntroPlayed')){
     requestAnimationFrame(()=>{
@@ -291,17 +266,17 @@
       setTimeout(()=>logoWrap.classList.add('active'),100);
       setTimeout(()=>{
         mainContainer.classList.add('visible');
+        why.classList.add('visible');
         localStorage.setItem('astroIntroPlayed','true');
       },2500);
     });
   } else {
     logoWrap.classList.add('active');
     mainContainer.classList.add('visible');
+    why.classList.add('visible');
   }
 
-  // --- Hover logic ---
   const logo=document.getElementById('logo');
-  const why=document.getElementById('whyButton');
   const man=document.getElementById('manifesto');
   const whyInfo=document.getElementById('whyInfo');
   let active=null;
