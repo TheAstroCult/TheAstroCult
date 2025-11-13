@@ -66,10 +66,7 @@
       transition:transform .4s ease,filter .4s ease,z-index .4s ease;
       z-index:50;
     }
-    .why.behind {
-      z-index:5;
-      pointer-events:none;
-    }
+    .why.behind {z-index:5;pointer-events:none;}
     .why:hover{transform:rotate(-12deg) scale(1.15);filter:drop-shadow(0 0 25px #00ffff);}
 
     /* TEXTBOXEN */
@@ -89,6 +86,17 @@
       z-index:60;
       text-align:center;
       overflow:hidden;
+    }
+
+    .close-btn{
+      position:absolute;
+      top:10px;right:15px;
+      font-size:1.4rem;
+      color:#fff;
+      cursor:pointer;
+      display:none;
+      text-shadow:0 0 6px #fff;
+      z-index:70;
     }
 
     .manifesto p{font-size:0.9rem;line-height:1.5;}
@@ -124,13 +132,43 @@
     }
     .visible .newsletter-form{opacity:1;transition:opacity 1s ease 2.5s;}
     .newsletter-form input[type=email]{
-      padding:.8rem 1rem;border:2px solid #fff;border-radius:999px;
-      background:rgba(255,255,255,.1);color:#fff;font-size:1rem;width:250px;
-      outline:none;box-shadow:0 0 10px #ffffff80;transition:all .3s ease;text-align:center;
+      padding:.8rem 1rem;
+      border:2px solid #fff;
+      border-radius:999px;
+      background:rgba(255,255,255,.1);
+      color:#fff;
+      font-size:1rem;
+      width:250px;
+      outline:none;
+      box-shadow:0 0 10px #ffffff80;
+      transition:all .3s ease;
+      text-align:center;
     }
+    .newsletter-form input::placeholder{color:#ffffffaa;}
+    .newsletter-form input:focus{box-shadow:0 0 25px #fff;}
     .newsletter-form button{
-      padding:.8rem 1.5rem;background:#fff;border:none;border-radius:999px;color:#000;
-      font-weight:bold;font-size:1rem;cursor:pointer;transition:all .3s ease;
+      padding:.8rem 1.5rem;
+      background:#fff;
+      border:none;
+      border-radius:999px;
+      color:#000;
+      font-weight:bold;
+      font-size:1rem;
+      cursor:pointer;
+      transition:all .3s ease;
+      box-shadow:0 0 10px #ffffff80;
+    }
+    .newsletter-form button:hover{
+      transform:scale(1.1);
+      box-shadow:0 0 25px #fff;
+    }
+    .thank-you-message{
+      margin-top:1.5rem;
+      font-size:1.3rem;
+      color:#fff;
+      text-shadow:0 0 15px #fff;
+      opacity:0;
+      transition:opacity .6s ease;
     }
 
     /* MOBILE */
@@ -150,8 +188,7 @@
       }
       .join{width:260px;max-width:75vw;}
       .newsletter-form input[type=email]{width:220px;font-size:.9rem;}
-      .newsletter-form button{font-size:.9rem;padding:.7rem 1.2rem;}
-      .why-info li{display:block;text-align:center;}
+      .close-btn{display:block;} /* Nur auf Mobile sichtbar */
     }
   </style>
 </head>
@@ -164,6 +201,7 @@
     <img src="why.png" alt="Why" class="why" id="whyButton">
 
     <div class="manifesto" id="manifesto">
+      <span class="close-btn" data-close="manifesto">✕</span>
       <p>Before the dawn of distortion, there was Harmony.<br>
       From the dust of dead stars, the First Chord was struck —<br>
       a perfect triad that echoed across eternity.<br><br>
@@ -175,11 +213,11 @@
     </div>
 
     <div class="why-info" id="whyInfo">
+      <span class="close-btn" data-close="whyInfo">✕</span>
       <p>You don’t just follow a band.<br>
       You join a frequency.<br><br>
       When the portal opens, enter your email.<br>
-      You’ll receive your Astro Number — your place in the cosmic order.<br>
-      It’s your ID in the Cult, proof that you tuned in before the rest of Earth caught on.<br><br>
+      You’ll receive your Astro Number — your place in the cosmic order.<br><br>
       The lower your number, the closer you are to the source.<br><br>
       ⸻<br><br>
       💫 WHY YOUR NUMBER MATTERS</p>
@@ -192,12 +230,12 @@
     </div>
   </div>
 
-  <div class="join-area" id="joinArea">
+  <div class="join-area">
     <img src="join.png" alt="Join the Cult" class="join" id="joinButton">
   </div>
 
   <div id="newsletter">
-    <form action="https://formspree.io/f/mvgdojva" method="POST" class="newsletter-form" id="astroForm">
+    <form action="https://formspree.io/f/mvgdojva" method="POST" class="newsletter-form">
       <input type="email" name="email" placeholder="Enter your email" required>
       <button type="submit">JOIN</button>
     </form>
@@ -207,16 +245,14 @@
 <audio id="introSound" src="intro-whoosh.mp3" preload="auto"></audio>
 
 <script>
-/* --- STARFIELD WITH UFOS & SHOOTING STARS --- */
+/* --- STARFIELD --- */
 const canvas=document.getElementById('starsCanvas');const ctx=canvas.getContext('2d');
 let stars=[],ufos=[],shootingStars=[];
 function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
 addEventListener('resize',resizeCanvas);resizeCanvas();
-
 class Star{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+.2;this.alpha=Math.random();this.da=(Math.random()*.02+.005)*(Math.random()<.5?1:-1);}update(){this.alpha+=this.da;if(this.alpha<=0||this.alpha>=1)this.da*=-1;}draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);g.addColorStop(.5,`rgba(255,255,200,${this.alpha/2})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
-class UFO{constructor(){this.reset();}reset(){this.x=-100;this.y=Math.random()*canvas.height*0.7+canvas.height*0.15;this.size=Math.random()*25+15;this.speed=Math.random()*4+3;this.alpha=0.9;}update(){this.x+=this.speed;}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.scale(1.2,0.6);const gradient=ctx.createRadialGradient(0,0,0,0,0,this.size);gradient.addColorStop(0,`rgba(0,255,255,${this.alpha})`);gradient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gradient;ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
+class UFO{constructor(){this.reset();}reset(){this.x=-100;this.y=Math.random()*canvas.height*0.7+canvas.height*0.15;this.size=Math.random()*25+15;this.speed=Math.random()*4+3;this.alpha=0.9;}update(){this.x+=this.speed;}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.scale(1.2,0.6);const g=ctx.createRadialGradient(0,0,0,0,0,this.size);g.addColorStop(0,`rgba(0,255,255,${this.alpha})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
 class ShootingStar{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height*0.3;this.len=Math.random()*80+50;this.speed=Math.random()*12+8;this.size=Math.random()*2+1;this.opacity=1;this.angle=Math.PI/4;}update(){this.x+=this.speed*Math.cos(this.angle);this.y+=this.speed*Math.sin(this.angle);this.opacity-=0.02;}draw(){ctx.save();ctx.strokeStyle=`rgba(255,255,255,${this.opacity})`;ctx.lineWidth=this.size;ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x-this.len*Math.cos(this.angle),this.y-this.len*Math.sin(this.angle));ctx.stroke();ctx.restore();}}
-
 function createStars(num){stars=Array.from({length:num},()=>new Star());}
 createStars(250);
 function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.update();s.draw();});ufos.forEach((u,i)=>{u.update();u.draw();if(u.x>canvas.width+100)ufos.splice(i,1);});shootingStars.forEach((s,i)=>{s.update();s.draw();if(s.opacity<=0)shootingStars.splice(i,1);});requestAnimationFrame(animate);}animate();
@@ -236,13 +272,9 @@ const whyInfo=document.getElementById('whyInfo');
 if(!localStorage.getItem('astroIntroPlayed')){
   introSound.play().catch(()=>{});
   setTimeout(()=>logoWrap.classList.add('active'),100);
-  setTimeout(()=>{
-    mainContainer.classList.add('visible');
-    localStorage.setItem('astroIntroPlayed','true');
-  },2500);
+  setTimeout(()=>{mainContainer.classList.add('visible');localStorage.setItem('astroIntroPlayed','true');},2500);
 }else{
-  logoWrap.classList.add('active');
-  mainContainer.classList.add('visible');
+  logoWrap.classList.add('active');mainContainer.classList.add('visible');
 }
 
 /* --- INTERACTION --- */
@@ -250,25 +282,29 @@ function isMobile(){return /Mobi|Android/i.test(navigator.userAgent);}
 let active=null;
 
 if(isMobile()){
-  // mobile toggle
-  function toggleBox(box){
-    const all=[man,whyInfo];
-    const isOpen=active===box;
-    all.forEach(b=>{b.style.opacity=0;b.style.pointerEvents='none';});
-    active=null;why.classList.remove('behind');
-    if(!isOpen){
-      box.style.opacity=1;box.style.pointerEvents='auto';
-      active=box;why.classList.add('behind');
-    }
-  }
-  logo.addEventListener('click',()=>toggleBox(man));
-  why.addEventListener('click',()=>toggleBox(whyInfo));
+  logo.addEventListener('click',()=>openBox(man));
+  why.addEventListener('click',()=>openBox(whyInfo));
+  document.querySelectorAll('.close-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>closeBoxes());
+  });
 }else{
-  // desktop hover
   logo.addEventListener('mouseenter',()=>{man.style.opacity=1;why.classList.add('behind');});
   logo.addEventListener('mouseleave',()=>{man.style.opacity=0;why.classList.remove('behind');});
   why.addEventListener('mouseenter',()=>{whyInfo.style.opacity=1;why.classList.add('behind');});
   why.addEventListener('mouseleave',()=>{whyInfo.style.opacity=0;why.classList.remove('behind');});
+}
+
+function openBox(box){
+  closeBoxes();
+  box.style.opacity=1;
+  box.style.pointerEvents='auto';
+  why.classList.add('behind');
+  active=box;
+}
+function closeBoxes(){
+  [man,whyInfo].forEach(b=>{b.style.opacity=0;b.style.pointerEvents='none';});
+  why.classList.remove('behind');
+  active=null;
 }
 
 /* --- JOIN SOUND --- */
