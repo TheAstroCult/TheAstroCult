@@ -163,7 +163,64 @@
       cursor:pointer;
       text-shadow:0 0 15px red;
     }
+/* ============================================
+   MOBILE OPTIMIZATION (nothing overwritten)
+   ============================================ */
+@media (max-width: 600px) {
 
+  .logo-wrapper {
+    transform: scale(0.75) !important;
+  }
+
+  .logo {
+    width: 180px !important;
+  }
+
+  .why {
+    width: 60px !important;
+    top: -80px !important;
+    left: -60px !important;
+  }
+
+  .join {
+    width: 250px !important;
+  }
+
+  .container {
+    gap: 1rem !important;
+  }
+
+  .manifesto, .why-info {
+    transform: translate(-50%, -50%) scale(0.85) !important;
+    max-width: 350px !important;
+    padding: 1rem !important;
+  }
+
+  .newsletter-form input[type=email] {
+    width: 200px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .newsletter-form button {
+    font-size: 0.9rem !important;
+    padding: 0.6rem 1.2rem !important;
+  }
+
+}
+/* MOBILE: close buttons aktivieren + sichtbar machen */
+@media (max-width: 600px) {
+  .close-btn {
+    display:block !important;
+  }
+
+  .manifesto .close-btn,
+  .why-info .close-btn {
+    top:8px !important;
+    right:12px !important;
+    font-size:1.6rem !important;
+    pointer-events:auto !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -312,7 +369,8 @@ if(isMobile()){
   logo.addEventListener('click',()=>openBox(man));
   why.addEventListener('click',()=>openBox(whyInfo));
   document.querySelectorAll('.close-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>closeBoxes());});
+    btn.addEventListener('click',()=>closeBoxes());
+  });
 }else{
   logo.addEventListener('mouseenter',()=>{man.style.opacity=1;
     why.classList.add('behind');});
@@ -322,6 +380,16 @@ if(isMobile()){
     why.classList.add('behind');});
   why.addEventListener('mouseleave',()=>{whyInfo.style.opacity=0;
     why.classList.remove('behind');});
+}
+
+/* -----------------------------------------
+   Mobile: X-Buttons sichtbar + nutzbar
+   ----------------------------------------- */
+if (isMobile()) {
+  document.querySelectorAll('.close-btn').forEach(btn => {
+    btn.style.display = "block"; 
+    btn.addEventListener("click", closeBoxes);
+  });
 }
 
 function openBox(box){
