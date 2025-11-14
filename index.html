@@ -12,6 +12,7 @@
       overflow:hidden;
     }
 
+    /* BACKGROUND CANVAS */
     #starsCanvas{
       position:fixed;top:0;left:0;width:100%;height:100%;
       background:radial-gradient(ellipse at bottom,#03031a 0%,#000 100%);
@@ -37,8 +38,8 @@
       opacity:1;
       transition:transform 2s cubic-bezier(0.25,1,0.3,1);
     }
-    .logo-wrapper.active {transform:scale(1);}
-    .container.visible {opacity:1;}
+    .logo-wrapper.active{transform:scale(1);}
+    .container.visible{opacity:1;}
 
     .logo{
       width:260px;max-width:65vw;
@@ -54,19 +55,15 @@
       100%{filter:drop-shadow(0 0 30px #ffdd99);}
     }
 
-    /* WHY BUTTON */
     .why{
-      position:absolute;
-      top:-120px;
-      left:-100px;
-      width:90px;
+      position:absolute;top:-120px;left:-100px;width:90px;
       transform:rotate(-12deg);
       cursor:pointer;
       filter:drop-shadow(0 0 10px #00ffffcc);
       transition:transform .4s ease,filter .4s ease,z-index .4s ease;
       z-index:50;
     }
-    .why.behind {z-index:5;pointer-events:none;}
+    .why.behind{z-index:5;pointer-events:none;}
     .why:hover{transform:rotate(-12deg) scale(1.15);filter:drop-shadow(0 0 25px #00ffff);}
 
     /* TEXTBOXEN */
@@ -79,135 +76,122 @@
       opacity:0;transition:opacity .6s ease;
       pointer-events:none;
       background:rgba(0,0,0,.7);
-      padding:1.2rem 1.5rem;
-      border-radius:20px;
+      padding:1.2rem 1.5rem;border-radius:20px;
       backdrop-filter:blur(6px);
       box-shadow:0 0 25px rgba(255,255,255,.25);
-      z-index:60;
-      text-align:center;
+      z-index:60;text-align:center;
       overflow:hidden;
     }
 
-    .close-btn{
-      position:absolute;
-      top:10px;right:15px;
-      font-size:1.4rem;
-      color:#fff;
-      cursor:pointer;
-      display:none;
-      text-shadow:0 0 6px #fff;
-      z-index:70;
-    }
+    .close-btn{position:absolute;top:10px;right:15px;font-size:1.4rem;color:#fff;cursor:pointer;display:none;text-shadow:0 0 6px #fff;z-index:70;}
 
     .manifesto p{font-size:0.9rem;line-height:1.5;}
     .why-info{font-size:0.8rem;line-height:1.45;}
     .why-info p{margin-bottom:0.6rem;}
-    .why-info ul{
-      list-style:none;
-      padding:0;margin:0.6rem 0 0;text-align:center;
-    }
+    .why-info ul{list-style:none;padding:0;margin:0.6rem 0 0;text-align:center;}
     .why-info li{display:inline-block;white-space:nowrap;margin:3px 0;text-align:center;}
 
     /* JOIN BUTTON */
-    .join-area{
-      position:relative;display:inline-block;
-      animation:glow 3s ease-in-out infinite alternate;
-      z-index:15;opacity:0;
-    }
+    .join-area{position:relative;display:inline-block;animation:glow 3s ease-in-out infinite alternate;z-index:15;opacity:0;}
     .visible .join-area{opacity:1;transition:opacity 1s ease 2.3s;}
-    .join{
-      width:380px;max-width:80vw;
-      display:block;cursor:pointer;
-      transition:transform .5s ease,filter .5s ease,opacity .6s ease;
-      transform-origin:center;
-    }
+    .join{width:380px;max-width:80vw;display:block;cursor:pointer;transition:transform .5s ease,filter .5s ease,opacity .6s ease;transform-origin:center;}
     .join-area:hover .join{transform:scale(1.1);filter:drop-shadow(0 0 30px #ffaa00);}
     @keyframes glow{0%{filter:drop-shadow(0 0 8px #ffcc66);}100%{filter:drop-shadow(0 0 25px #ffaa00);}}
 
-    /* FORM */
     .newsletter-form{
       display:flex;gap:.5rem;justify-content:center;align-items:center;
-      margin-top:1rem;flex-wrap:wrap;
-      opacity:0;
+      margin-top:1rem;flex-wrap:wrap;opacity:0;
     }
     .visible .newsletter-form{opacity:1;transition:opacity 1s ease 2.5s;}
     .newsletter-form input[type=email]{
-      padding:.8rem 1rem;
-      border:2px solid #fff;
-      border-radius:999px;
-      background:rgba(255,255,255,.1);
-      color:#fff;
-      font-size:1rem;
-      width:250px;
-      outline:none;
-      box-shadow:0 0 10px #ffffff80;
-      transition:all .3s ease;
-      text-align:center;
+      padding:.8rem 1rem;border:2px solid #fff;border-radius:999px;background:rgba(255,255,255,.1);
+      color:#fff;font-size:1rem;width:250px;outline:none;box-shadow:0 0 10px #ffffff80;transition:all .3s ease;text-align:center;
     }
     .newsletter-form input::placeholder{color:#ffffffaa;}
-    .newsletter-form input:focus{box-shadow:0 0 25px #fff;}
-    .newsletter-form button{
-      padding:.8rem 1.5rem;
-      background:#fff;
-      border:none;
-      border-radius:999px;
-      color:#000;
-      font-weight:bold;
-      font-size:1rem;
-      cursor:pointer;
-      transition:all .3s ease;
-      box-shadow:0 0 10px #ffffff80;
-    }
-    .newsletter-form button:hover{
-      transform:scale(1.1);
-      box-shadow:0 0 25px #fff;
-    }
-    .thank-you-message{
-      margin-top:1.5rem;
-      font-size:1.3rem;
-      color:#fff;
-      text-shadow:0 0 15px #fff;
-      opacity:0;
-      transition:opacity .6s ease;
+    .newsletter-form button{padding:.8rem 1.5rem;background:#fff;border:none;border-radius:999px;color:#000;font-weight:bold;font-size:1rem;cursor:pointer;transition:all .3s ease;box-shadow:0 0 10px #ffffff80;}
+
+    /* UFO LAYER */
+    #ufoLayer{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      pointer-events:none;z-index:9999999;
     }
 
-    /* MOBILE */
-    @media(max-width:700px){
-      html,body{overflow-y:auto;overflow-x:hidden;}
-      .container{height:auto;padding-top:20vh;padding-bottom:10vh;gap:1.5rem;}
-      .logo-wrapper{transform:scale(1.5);}
-      .logo-wrapper.active{transform:scale(1);}
-      .logo{width:220px;max-width:80vw;margin-top:1rem;}
-      .why{
-        position:fixed !important;
-        top:-90px !important;
-        left:25px !important;
-        width:70px !important;
-        transform:rotate(-10deg);
-        z-index:9999;
-      }
-      .join{width:260px;max-width:75vw;}
-      .newsletter-form input[type=email]{width:220px;font-size:.9rem;}
-      .close-btn{display:block;} /* Nur auf Mobile sichtbar */
+    .floatingUFO{
+      position:absolute;border-radius:50%;pointer-events:auto;
+      opacity:0.8;
+      transition:filter .2s ease, background .2s ease, opacity .2s ease;
+      background:radial-gradient(circle,
+        rgba(0,255,255,0.9) 0%,
+        rgba(0,255,255,0.25) 60%,
+        rgba(0,0,0,0) 75%);
     }
+
+    .floatingUFO.hover{
+      opacity:1;
+      background:radial-gradient(circle,
+        rgba(255,80,80,1) 0%,
+        rgba(255,0,0,0.5) 50%,
+        rgba(0,0,0,0) 70%);
+      filter:drop-shadow(0 0 14px red);
+    }
+
+    /* VIDEO OVERLAY */
+    #ufoVideoOverlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.9);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      z-index:999999999;
+    }
+    #ufoVideoOverlay iframe {
+      width:80vw;
+      height:45vw;
+      max-width:900px;
+      max-height:520px;
+      border:none;
+      border-radius:10px;
+      box-shadow:0 0 25px red;
+    }
+    #ufoVideoClose {
+      margin-top:20px;
+      font-size:2rem;
+      color:white;
+      cursor:pointer;
+      text-shadow:0 0 15px red;
+    }
+
   </style>
 </head>
 <body>
+
 <canvas id="starsCanvas"></canvas>
+
+<!-- SECRET UFO LAYER -->
+<div id="ufoLayer"></div>
+
+<!-- VIDEO OVERLAY -->
+<div id="ufoVideoOverlay">
+  <div id="ufoVideoClose">✕</div>
+  <iframe id="ufoVideoFrame" allowfullscreen></iframe>
+</div>
 
 <div class="container" id="mainContainer">
   <div class="logo-wrapper" id="logoWrap">
-    <img src="logo.png" alt="Astro Cult Logo" class="logo" id="logo">
-    <img src="why.png" alt="Why" class="why" id="whyButton">
+    <img src="logo.png" class="logo" id="logo">
+    <img src="why.png" class="why" id="whyButton">
 
     <div class="manifesto" id="manifesto">
       <span class="close-btn" data-close="manifesto">✕</span>
       <p>Before the dawn of distortion, there was Harmony.<br>
-      From the dust of dead stars, the First Chord was struck —<br>
-      a perfect triad that echoed across eternity.<br><br>
+      From the dust of dead stars, the First Chord was struck —
+      <br>a perfect triad that echoed across eternity.<br><br>
       We, the Astro Cult, were chosen to guard this frequency.<br>
-      We descend upon Earth — a planet drowning in off-key chaos —<br>
-      to restore balance through rhythm, tone, and divine reverb.<br><br>
+      We descend upon Earth — a planet drowning in off-key chaos —
+      <br>to restore balance through rhythm, tone, and divine reverb.<br><br>
       Those who hear our music are marked by vibration.<br>
       Those who join… transcend.</p>
     </div>
@@ -228,10 +212,11 @@
         <li>🎲 Lucky numbers win tickets, merch & relics</li>
       </ul>
     </div>
+
   </div>
 
   <div class="join-area">
-    <img src="join.png" alt="Join the Cult" class="join" id="joinButton">
+    <img src="join.png" class="join" id="joinButton">
   </div>
 
   <div id="newsletter">
@@ -245,22 +230,66 @@
 <audio id="introSound" src="intro-whoosh.mp3" preload="auto"></audio>
 
 <script>
-/* --- STARFIELD --- */
-const canvas=document.getElementById('starsCanvas');const ctx=canvas.getContext('2d');
+/* STARFIELD — UNVERÄNDERT */
+const canvas=document.getElementById('starsCanvas'),ctx=canvas.getContext('2d');
 let stars=[],ufos=[],shootingStars=[];
 function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
 addEventListener('resize',resizeCanvas);resizeCanvas();
-class Star{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+.2;this.alpha=Math.random();this.da=(Math.random()*.02+.005)*(Math.random()<.5?1:-1);}update(){this.alpha+=this.da;if(this.alpha<=0||this.alpha>=1)this.da*=-1;}draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);g.addColorStop(.5,`rgba(255,255,200,${this.alpha/2})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
-class UFO{constructor(){this.reset();}reset(){this.x=-100;this.y=Math.random()*canvas.height*0.7+canvas.height*0.15;this.size=Math.random()*25+15;this.speed=Math.random()*4+3;this.alpha=0.9;}update(){this.x+=this.speed;}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.scale(1.2,0.6);const g=ctx.createRadialGradient(0,0,0,0,0,this.size);g.addColorStop(0,`rgba(0,255,255,${this.alpha})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
-class ShootingStar{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height*0.3;this.len=Math.random()*80+50;this.speed=Math.random()*12+8;this.size=Math.random()*2+1;this.opacity=1;this.angle=Math.PI/4;}update(){this.x+=this.speed*Math.cos(this.angle);this.y+=this.speed*Math.sin(this.angle);this.opacity-=0.02;}draw(){ctx.save();ctx.strokeStyle=`rgba(255,255,255,${this.opacity})`;ctx.lineWidth=this.size;ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x-this.len*Math.cos(this.angle),this.y-this.len*Math.sin(this.angle));ctx.stroke();ctx.restore();}}
-function createStars(num){stars=Array.from({length:num},()=>new Star());}
+
+class Star{constructor(){this.reset();}
+reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;
+this.size=Math.random()*1.5+.2;this.alpha=Math.random();
+this.da=(Math.random()*.02+.005)*(Math.random()<.5?1:-1);}
+update(){this.alpha+=this.da;if(this.alpha<=0||this.alpha>=1)this.da*=-1;}
+draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);
+g.addColorStop(0,`rgba(255,255,255,${this.alpha})`);
+g.addColorStop(.5,`rgba(255,255,200,${this.alpha/2})`);
+g.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=g;ctx.beginPath();
+ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);ctx.fill();}}
+
+class UFO{constructor(){this.reset();}
+reset(){this.x=-100;this.y=Math.random()*canvas.height*0.7+canvas.height*0.15;
+this.size=Math.random()*25+15;this.speed=Math.random()*4+3;this.alpha=0.9;}
+update(){this.x+=this.speed;}
+draw(){ctx.save();ctx.translate(this.x,this.y);ctx.scale(1.2,0.6);
+const g=ctx.createRadialGradient(0,0,0,0,0,this.size);
+g.addColorStop(0,`rgba(0,255,255,${this.alpha})`);
+g.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=g;ctx.beginPath();
+ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
+
+class ShootingStar{constructor(){this.reset();}
+reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height*0.3;
+this.len=Math.random()*80+50;this.speed=Math.random()*12+8;
+this.size=Math.random()*2+1;this.opacity=1;this.angle=Math.PI/4;}
+update(){this.x+=this.speed*Math.cos(this.angle);
+this.y+=this.speed*Math.sin(this.angle);this.opacity-=0.02;}
+draw(){ctx.save();ctx.strokeStyle=`rgba(255,255,255,${this.opacity})`;
+ctx.lineWidth=this.size;ctx.beginPath();
+ctx.moveTo(this.x,this.y);
+ctx.lineTo(this.x-this.len*Math.cos(this.angle),
+this.y-this.len*Math.sin(this.angle));ctx.stroke();ctx.restore();}}
+
+function createStars(n){stars=Array.from({length:n},()=>new Star());}
 createStars(250);
-function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.update();s.draw();});ufos.forEach((u,i)=>{u.update();u.draw();if(u.x>canvas.width+100)ufos.splice(i,1);});shootingStars.forEach((s,i)=>{s.update();s.draw();if(s.opacity<=0)shootingStars.splice(i,1);});requestAnimationFrame(animate);}animate();
-function spawnUFO(){ufos.push(new UFO());setTimeout(spawnUFO,Math.random()*5000+3000);}
-function spawnShootingStar(){shootingStars.push(new ShootingStar());setTimeout(spawnShootingStar,Math.random()*8000+12000);}
+
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);
+stars.forEach(s=>{s.update();s.draw();});
+ufos.forEach((u,i)=>{u.update();u.draw();
+if(u.x>canvas.width+100)ufos.splice(i,1);});
+shootingStars.forEach((s,i)=>{s.update();s.draw();
+if(s.opacity<=0)shootingStars.splice(i,1);});
+requestAnimationFrame(animate);}
+animate();
+
+function spawnUFO(){ufos.push(new UFO());
+setTimeout(spawnUFO,Math.random()*5000+3000);}
+function spawnShootingStar(){shootingStars.push(new ShootingStar());
+setTimeout(spawnShootingStar,Math.random()*8000+12000);}
 spawnUFO();spawnShootingStar();
 
-/* --- INTRO --- */
+/* INTRO (UNVERÄNDERT) */
 const logoWrap=document.getElementById('logoWrap');
 const mainContainer=document.getElementById('mainContainer');
 const introSound=document.getElementById('introSound');
@@ -272,12 +301,10 @@ const whyInfo=document.getElementById('whyInfo');
 if(!localStorage.getItem('astroIntroPlayed')){
   introSound.play().catch(()=>{});
   setTimeout(()=>logoWrap.classList.add('active'),100);
-  setTimeout(()=>{mainContainer.classList.add('visible');localStorage.setItem('astroIntroPlayed','true');},2500);
-}else{
-  logoWrap.classList.add('active');mainContainer.classList.add('visible');
-}
+  setTimeout(()=>{mainContainer.classList.add('visible');
+    localStorage.setItem('astroIntroPlayed','true');},2500);
+}else{logoWrap.classList.add('active');mainContainer.classList.add('visible');}
 
-/* --- INTERACTION --- */
 function isMobile(){return /Mobi|Android/i.test(navigator.userAgent);}
 let active=null;
 
@@ -285,38 +312,110 @@ if(isMobile()){
   logo.addEventListener('click',()=>openBox(man));
   why.addEventListener('click',()=>openBox(whyInfo));
   document.querySelectorAll('.close-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>closeBoxes());
-  });
+    btn.addEventListener('click',()=>closeBoxes());});
 }else{
-  logo.addEventListener('mouseenter',()=>{man.style.opacity=1;why.classList.add('behind');});
-  logo.addEventListener('mouseleave',()=>{man.style.opacity=0;why.classList.remove('behind');});
-  why.addEventListener('mouseenter',()=>{whyInfo.style.opacity=1;why.classList.add('behind');});
-  why.addEventListener('mouseleave',()=>{whyInfo.style.opacity=0;why.classList.remove('behind');});
+  logo.addEventListener('mouseenter',()=>{man.style.opacity=1;
+    why.classList.add('behind');});
+  logo.addEventListener('mouseleave',()=>{man.style.opacity=0;
+    why.classList.remove('behind');});
+  why.addEventListener('mouseenter',()=>{whyInfo.style.opacity=1;
+    why.classList.add('behind');});
+  why.addEventListener('mouseleave',()=>{whyInfo.style.opacity=0;
+    why.classList.remove('behind');});
 }
 
 function openBox(box){
   closeBoxes();
-  box.style.opacity=1;
-  box.style.pointerEvents='auto';
-  why.classList.add('behind');
-  active=box;
-}
-function closeBoxes(){
-  [man,whyInfo].forEach(b=>{b.style.opacity=0;b.style.pointerEvents='none';});
-  why.classList.remove('behind');
-  active=null;
+  box.style.opacity=1;box.style.pointerEvents='auto';
+  why.classList.add('behind');active=box;
 }
 
-/* --- JOIN SOUND --- */
+function closeBoxes(){
+  [man,whyInfo].forEach(b=>{
+    b.style.opacity=0;b.style.pointerEvents='none';});
+  why.classList.remove('behind');active=null;
+}
+
+/* JOIN SOUND (UNVERÄNDERT) */
 const joinButton=document.getElementById('joinButton');
 const cultAudio=new Audio('cult-sound.mp3');
 joinButton.addEventListener('click',()=>{
-  cultAudio.currentTime=0;
-  cultAudio.play().catch(()=>{});
+  cultAudio.currentTime=0;cultAudio.play().catch(()=>{});
   joinButton.style.opacity='0';
-  setTimeout(()=>{joinButton.src='greatest.png';joinButton.style.opacity='1';},600);
-  cultAudio.onended=()=>{joinButton.style.opacity='0';setTimeout(()=>{joinButton.src='join.png';joinButton.style.opacity='1';},600);};
+  setTimeout(()=>{joinButton.src='greatest.png';
+    joinButton.style.opacity='1';},600);
+  cultAudio.onended=()=>{
+    joinButton.style.opacity='0';
+    setTimeout(()=>{joinButton.src='join.png';
+      joinButton.style.opacity='1';},600);
+  };
 });
+
+/* ============================================================
+   UPDATED CLICKABLE UFO SYSTEM + MOBILE CLICK FIX + OVERLAY
+   ============================================================ */
+
+const ufoLayer=document.getElementById("ufoLayer");
+const ufoVideoOverlay=document.getElementById("ufoVideoOverlay");
+const ufoVideoFrame=document.getElementById("ufoVideoFrame");
+const ufoVideoClose=document.getElementById("ufoVideoClose");
+
+function spawnFloatingUFO() {
+  const u=document.createElement("div");
+  u.classList.add("floatingUFO");
+
+  const scale=Math.random()*0.5+0.3;
+  u.style.width=60*scale+"px";
+  u.style.height=30*scale+"px";
+
+  u.style.opacity=(Math.random()*0.15+0.75).toFixed(2);
+
+  const duration=Math.random()*5000+6000;
+
+  const startY=Math.random()*window.innerHeight*0.8;
+  u.style.top=startY+"px";
+  u.style.left="-200px";
+
+  ufoLayer.appendChild(u);
+
+  u.onmouseenter=()=>u.classList.add("hover");
+  u.onmouseleave=()=>u.classList.remove("hover");
+
+  /* CLICK → OPEN VIDEO OVERLAY */
+  function openVideo() {
+    ufoVideoFrame.src="https://www.youtube.com/embed/rbQoSsmtYNU?autoplay=1&playsinline=1&modestbranding=1";
+    ufoVideoOverlay.style.display="flex";
+  }
+
+  /* DESKTOP */
+  u.onclick=openVideo;
+
+  /* MOBILE CLICK FIX */
+  u.addEventListener("touchstart", e => {
+    e.preventDefault();
+    openVideo();
+  }, {passive:false});
+
+  /* MOVEMENT */
+  u.animate(
+    [
+      { transform:"translateX(0px)" },
+      { transform:`translateX(${window.innerWidth+300}px)` }
+    ],
+    { duration, easing:"linear" }
+  ).onfinish=()=>u.remove();
+
+  setTimeout(spawnFloatingUFO,Math.random()*5000+10000);
+}
+
+spawnFloatingUFO();
+
+/* CLOSE OVERLAY */
+ufoVideoClose.onclick=()=>{
+  ufoVideoOverlay.style.display="none";
+  ufoVideoFrame.src="";
+};
 </script>
+
 </body>
 </html>
