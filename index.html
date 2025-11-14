@@ -168,22 +168,35 @@
    ============================================ */
 @media (max-width: 600px) {
 
+  /* MAIN LOGO – etwas höher */
   .logo-wrapper {
-    transform: scale(0.95) !important; /* vorher 0.75 */
+    transform: scale(0.95) translateY(-20px) !important;
   }
 
   .logo {
-    width: 230px !important; /* vorher 180px */
+    width: 230px !important;
   }
 
+  /* WHY ICON – nach rechts verschoben */
   .why {
-    width: 85px !important; /* vorher 60px */
-    top: -95px !important;  /* vorher -80px */
-    left: -70px !important; /* vorher -60px */
+    width: 85px !important;
+    top: -95px !important;
+    left: -60px !important; /* vorher -70px → 1 cm nach rechts */
   }
 
+  /* JOIN BUTTON – höher & kleiner */
   .join {
-    width: 250px !important;
+    width: 220px !important; /* vorher 250 → etwas kleiner */
+    transform: translateY(-10px) !important; /* nach oben */
+  }
+
+  .join-area {
+    transform: translateY(-15px) !important; /* gesamte Join-Sektion höher */
+  }
+
+  /* EMAIL FORMULAR – etwas höher */
+  .newsletter-form {
+    transform: translateY(-20px) !important;
   }
 
   .container {
